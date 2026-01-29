@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .question-block {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            border-left: 5px solid #667eea;
+        }
+
+        .question-block h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .answer-option {
+            margin: 12px 0;
+            padding: 12px;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .answer-option:hover {
+            background-color: #e9ecef;
+        }
+
+        .answer-option input[type="radio"] {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+
+        .answer-option label {
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Quiz Time!</h1>
+
+    <form th:action="@{/quiz}" method="post">
+        <div class="question-block" th:each="question, iterStat : ${questions}">
+            <h3 th:text="${iterStat.count + '. ' + question.questionText}"></h3>
+
+            <div class="answer-option" th:each="option, optionStat : ${question.options}">
+                <label>
+                    <input type="radio" th:id="${'q' + question.id + '_' + optionStat.index}"
+                           th:name="${'answer_' + question.id}"
+                           th:value="${option}" required>
+                </label>
+                <label th:for="${'q' + question.id + '_' + optionStat.index}" th:text="${option}"></label>
+            </div>
+        </div>
+
+        <button type="submit" class="submit-btn">Submit Quiz</button>
+    </form>
+</div>
+</body>
+</html>

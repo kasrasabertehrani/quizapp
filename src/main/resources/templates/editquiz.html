@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Quiz Question</title>
+    <link rel="stylesheet" th:href="@{/css/add-edit-quiz.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Quiz Question</h1>
+
+    <form th:action="@{/editquiz}" method="post" th:object="${question}">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" th:field="*{id}">
+
+        <div class="form-group">
+            <label for="questionText">Question Text</label>
+            <input type="text" id="questionText" th:field="*{questionText}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="option1">Option 1</label>
+            <input type="text" id="option1" th:field="*{options[0]}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="option2">Option 2</label>
+            <input type="text" id="option2" th:field="*{options[1]}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="option3">Option 3</label>
+            <input type="text" id="option3" th:field="*{options[2]}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="option4">Option 4</label>
+            <input type="text" id="option4" th:field="*{options[3]}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="correctAnswer">Correct Answer</label>
+            <select id="correctAnswer" th:field="*{correctAnswer}" required>
+                <option value="">Select the correct answer</option>
+                <option value="1">Option 1</option>
+                <option value="2">Option 2</option>
+                <option value="3">Option 3</option>
+                <option value="4">Option 4</option>
+            </select>
+        </div>
+
+        <div class="button-group">
+            <button type="submit" class="btn btn-save">Save Question</button>
+            <a href="/quizlist" class="btn btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

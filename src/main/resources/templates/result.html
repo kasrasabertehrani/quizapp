@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Quiz Results</title>
+</head>
+<body>
+<h1>Quiz Results</h1>
+<p th:text="'You have answered ' + ${score} + ' questions correctly'"></p>
+<a href="/quiz">Take Quiz Again</a>
+<a href="/home">Go Home</a>
+</body>
+</html>
