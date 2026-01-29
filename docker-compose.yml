@@ -1,0 +1,18 @@
+services:
+  quiz-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quiz-application
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - JAVA_OPTS=-Xmx512m -Xms256m
+    restart: unless-stopped
+    networks:
+      - quiz-network
+
+networks:
+  quiz-network:
+    driver: bridge

@@ -13,6 +13,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+/**
+ * Security configuration for the Quiz Application.
+ * Configures Spring Security with form-based authentication and role-based access control.
+ * 
+ * Features:
+ * - Custom login/registration pages
+ * - BCrypt password encryption
+ * - Role-based authorization (USER and ADMIN)
+ * - CSRF protection enabled
+ * - Session management
+ *
+ * @author Kasra Saber Tehrani
+ */
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -23,6 +36,14 @@ public class WebSecurityConfig {
         this.quizUserDetailsService = quizUserDetailsService;
     }
 
+    /**
+     * Configures the security filter chain for HTTP requests.
+     * Defines access rules for different endpoints based on roles.
+     *
+     * @param http the HttpSecurity object to configure
+     * @return the configured SecurityFilterChain
+     * @throws Exception if configuration fails
+     */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
@@ -43,6 +64,14 @@ public class WebSecurityConfig {
         return http.build();
     }
 
+    /**
+     * Configures the authentication manager with custom user details service
+     * and password encoder.
+     *
+     * @param http the HttpSecurity object to extract shared objects from
+     * @return the configured AuthenticationManager
+     * @throws Exception if configuration fails
+     */
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder =
@@ -53,6 +82,11 @@ public class WebSecurityConfig {
         return authenticationManagerBuilder.build();
     }
 
+    /**
+     * Provides a BCrypt password encoder bean for secure password storage.
+     *
+     * @return the password encoder
+     */
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
