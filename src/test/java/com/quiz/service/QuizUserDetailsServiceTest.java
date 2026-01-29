@@ -1,24 +1,29 @@
 package com.quiz.service;
 
+import com.quiz.exception.UserAlreadyExistsException;
 import com.quiz.model.User;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class QuizUserDetailsServiceTest {
 
     private QuizUserDetailsService userDetailsService;
+    private PasswordEncoder passwordEncoder;
 
     @BeforeEach
     void setUp() {
-        userDetailsService = new QuizUserDetailsService();
+        passwordEncoder = new BCryptPasswordEncoder();
+        userDetailsService = new QuizUserDetailsService(passwordEncoder);
     }
 
     @Test
-    void testRegisterUser_Success() throws Exception {
+    void testRegisterUser_Success() {
         userDetailsService.registerUser("testuser", "password123", "USER", "test@example.com");
 
         UserDetails userDetails = userDetailsService.loadUserByUsername("testuser");
@@ -27,18 +32,18 @@ class QuizUserDetailsServiceTest {
     }
 
     @Test
-    void testRegisterUser_ThrowsExceptionWhenUserExists() throws Exception {
+    void testRegisterUser_ThrowsExceptionWhenUserExists() {
         userDetailsService.registerUser("testuser", "password123", "USER", "test@example.com");
 
-        Exception exception = assertThrows(Exception.class, () -> {
+        UserAlreadyExistsException exception = assertThrows(UserAlreadyExistsException.class, () -> {
             userDetailsService.registerUser("testuser", "password456", "ADMIN", "test2@example.com");
         });
 
-        assertEquals("User already exists", exception.getMessage());
+        assertTrue(exception.getMessage().contains("User already exists"));
     }
 
     @Test
-    void testLoadUserByUsername_Success() throws Exception {
+    void testLoadUserByUsername_Success() {
         userDetailsService.registerUser("john", "securepass", "ADMIN", "john@example.com");
 
         UserDetails userDetails = userDetailsService.loadUserByUsername("john");
@@ -56,7 +61,7 @@ class QuizUserDetailsServiceTest {
     }
 
     @Test
-    void testRegisterUser_PasswordIsEncrypted() throws Exception {
+    void testRegisterUser_PasswordIsEncrypted() {
         String plainPassword = "mypassword";
         userDetailsService.registerUser("alice", plainPassword, "USER", "alice@example.com");
 
@@ -67,10 +72,10 @@ class QuizUserDetailsServiceTest {
     }
 
     @Test
-    void testRegisterMultipleUsers() throws Exception {
-        userDetailsService.registerUser("user1", "pass1", "USER", "user1@test.com");
-        userDetailsService.registerUser("user2", "pass2", "ADMIN", "user2@test.com");
-        userDetailsService.registerUser("user3", "pass3", "USER", "user3@test.com");
+    void testRegisterMultipleUsers() {
+        userDetailsService.registerUser("user1", "pass1234", "USER", "user1@test.com");
+        userDetailsService.registerUser("user2", "pass5678", "ADMIN", "user2@test.com");
+        userDetailsService.registerUser("user3", "pass9012", "USER", "user3@test.com");
 
         UserDetails user1 = userDetailsService.loadUserByUsername("user1");
         UserDetails user2 = userDetailsService.loadUserByUsername("user2");
@@ -82,9 +87,9 @@ class QuizUserDetailsServiceTest {
     }
 
     @Test
-    void testUserRoles() throws Exception {
-        userDetailsService.registerUser("adminuser", "adminpass", "ADMIN", "admin@test.com");
-        userDetailsService.registerUser("normaluser", "userpass", "USER", "user@test.com");
+    void testUserRoles() {
+        userDetailsService.registerUser("adminuser", "adminpass123", "ADMIN", "admin@test.com");
+        userDetailsService.registerUser("normaluser", "userpass456", "USER", "user@test.com");
 
         UserDetails admin = userDetailsService.loadUserByUsername("adminuser");
         UserDetails user = userDetailsService.loadUserByUsername("normaluser");

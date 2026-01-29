@@ -6,14 +6,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 public class QuestionService {
     private static final Logger logger = LoggerFactory.getLogger(QuestionService.class);
-    private final Map<Integer, Question> questions = new HashMap<>();
+    private final Map<Integer, Question> questions = new ConcurrentHashMap<>();
 
     public List<Question> loadQuizzes() {
         logger.debug("Loading all quizzes. Total questions: {}", questions.size());

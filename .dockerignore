@@ -8,6 +8,3 @@ target/
 .vscode/
 .DS_Store
 README.md
-.mvn/
-mvnw
-mvnw.cmd
