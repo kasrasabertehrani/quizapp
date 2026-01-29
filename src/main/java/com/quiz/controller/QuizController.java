@@ -78,7 +78,7 @@ public class QuizController {
         // Register the user by storing their details in the HashMap
         try {
             quizUserDetailsService.registerUser(username, password, role, email);
-        } catch (Exception userExistsAlready) {
+        } catch (RuntimeException userExistsAlready) {
             // Redirect to the /register endpoint
             return "redirect:/register?error";
         }
