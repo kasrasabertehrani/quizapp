@@ -23,6 +23,7 @@ Select answers, submit the quiz, and view the score.
 
 Add a question, choose the correct answer, and edit it from the admin interface.
 
+<img width="1124" height="614" alt="manageQuestionGIF-compressed" src="https://github.com/user-attachments/assets/c5215c79-1f01-48cb-90ba-68d9a412b99a" />
 
 
 
