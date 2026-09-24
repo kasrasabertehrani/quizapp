@@ -93,6 +93,8 @@
     <h1>Quiz Time!</h1>
 
     <form th:action="@{/quiz}" method="post">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+
         <div class="question-block" th:each="question, iterStat : ${questions}">
             <h3 th:text="${iterStat.count + '. ' + question.questionText}"></h3>
 
