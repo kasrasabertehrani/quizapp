@@ -46,7 +46,6 @@ public class QuizController {
         }
 
         String username = authentication.getName();
-        System.out.println("Username from context " + username);
 
         // Check user role and redirect accordingly
         boolean isAdmin = authentication.getAuthorities().stream()
@@ -159,8 +158,10 @@ public class QuizController {
                 .max()
                 .orElse(0) + 1;
 
+        int correctAnswerIndex = Integer.parseInt(correctAnswer) - 1;
+        String correctAnswerText = options.get(correctAnswerIndex);
         // Create question using parameterized constructor
-        Question questionAdd = new Question(newId, questionText, correctAnswer, options);
+        Question questionAdd = new Question(newId, questionText, correctAnswerText, options);
 
         questionService.addQuestion(questionAdd);
         return "redirect:/quizlist";
