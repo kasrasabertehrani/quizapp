@@ -1,191 +1,103 @@
-# Quiz Application
+# Quiz App
 
-A secure web-based quiz application built with Spring Boot 4.0.1 and Spring Security 6, demonstrating role-based access control, authentication, and modern web development practices.
+![Java](https://img.shields.io/badge/Java-17-blue) ![Spring Boot](https://img.shields.io/badge/Spring_Boot-4.0.1-brightgreen?logo=spring-boot) ![Thymeleaf](https://img.shields.io/badge/Views-Thymeleaf-005F0F?logo=thymeleaf) ![Docker](https://img.shields.io/badge/Docker-Multi--Stage-2CA5E0?logo=docker&logoColor=white)
 
-## 🚀 Features
+A browser-based multiple-choice quiz application. Users can register, sign in, answer questions, and view their score; administrators can add, edit, and delete questions.
 
-- **Authentication & Authorization**: Secure login/registration system using Spring Security
-- **Role-Based Access Control**: 
-  - **Admin Role**: Can create, edit, and delete quiz questions
-  - **User Role**: Can take quizzes and view results
-- **Quiz Management**: 
-  - Create multiple-choice questions
-  - Edit existing questions
-  - Delete questions
-  - View all questions (Admin only)
-- **User Experience**:
-  - Clean and responsive UI with Thymeleaf templates
-  - Modern gradient design
-  - Instant quiz results
-  - CSRF protection
+This project demonstrates:
 
-## 🛠️ Technologies Used
+- Spring MVC with server-rendered Thymeleaf views
+- Form-based authentication and role-based access rules
+- Password hashing with BCrypt
+- Question management and quiz scoring
+- Unit testing, CI workflows, and Docker packaging
 
-- **Backend Framework**: Spring Boot 4.0.1
-- **Security**: Spring Security 6
-- **Template Engine**: Thymeleaf
-- **Build Tool**: Maven
-- **Java Version**: 17
-- **Password Encryption**: BCrypt
+## Demo
 
-## 📋 Prerequisites
+### Taking a Quiz
 
-- Java 17 or higher
-- Maven 3.6+
+Select answers, submit the quiz, and view the score.
+<img width="2340" height="1312" alt="questionsGif (1)" src="https://github.com/user-attachments/assets/b86cf56a-f3ae-4c78-8335-ededdb27a76d" />
 
-## 🔧 Installation & Setup
+### Managing Questions
 
-1. **Clone the repository**
+Add a question, choose the correct answer, and edit it from the admin interface.
+
+
+
+
+## Tech Stack
+
+| Area | Technologies |
+| --- | --- |
+| Application | Java 17, Spring Boot 4.0.1, Maven Wrapper |
+| Web interface | Thymeleaf, HTML, CSS |
+| Authentication & authorization | Spring Security, BCrypt |
+| Architecture | Spring MVC with controller, service, and model classes |
+| Storage | In-memory `ConcurrentHashMap` collections |
+| Testing | JUnit 5, Spring Boot Test |
+| Containerization | Multi-stage Docker build, Docker Compose |
+| CI | GitHub Actions, Maven test reports, OWASP Dependency-Check |
+
+## Where to Run
+
+### Docker
+
+With Git installed and Docker running with Compose support:
+
+1. Clone the repository and enter its root directory:
+
    ```bash
    git clone https://github.com/kasrasabertehrani/quizapp.git
    cd quizapp
    ```
 
-2. **Build the project**
+2. Build and start the application:
+
    ```bash
-   ./mvnw clean install
+   docker compose up --build
    ```
 
-3. **Run the application**
-   ```bash
-   ./mvnw spring-boot:run
-   ```
+3. Open [http://localhost:8080](http://localhost:8080) in your browser. Port `8080` must be available.
 
-4. **Access the application**
-   
-   Open your browser and navigate to: `http://localhost:8080`
+### Maven
 
-## 📖 Usage
-
-### User Registration
-
-1. Navigate to the registration page
-2. Enter username, email, password
-3. Select role (USER or ADMIN)
-4. Click "Register"
-
-### Taking a Quiz (User Role)
-
-1. Log in with USER credentials
-2. View available questions
-3. Select answers for each question
-4. Submit the quiz
-5. View your score
-
-### Managing Quizzes (Admin Role)
-
-1. Log in with ADMIN credentials
-2. View all quiz questions
-3. Add new questions with multiple-choice options
-4. Edit existing questions
-5. Delete questions
-
-## 🔐 Security Features
-
-- **Password Encryption**: All passwords are encrypted using BCrypt
-- **CSRF Protection**: Built-in CSRF token validation
-- **Session Management**: Secure session handling with Spring Security
-- **Role-Based Authorization**: Different access levels for admins and users
-- **Form-Based Authentication**: Custom login page with security filters
-
-## 📁 Project Structure
-
-```
-quizapp/
-├── src/
-│   ├── main/
-│   │   ├── java/com/quiz/
-│   │   │   ├── config/
-│   │   │   │   └── WebSecurityConfig.java       # Security configuration
-│   │   │   ├── controller/
-│   │   │   │   └── QuizController.java          # Main controller
-│   │   │   ├── model/
-│   │   │   │   ├── Question.java                # Question entity
-│   │   │   │   └── User.java                    # User entity
-│   │   │   ├── service/
-│   │   │   │   ├── QuestionService.java         # Question management
-│   │   │   │   └── QuizUserDetailsService.java  # User authentication
-│   │   │   └── QuizApplication.java             # Main application class
-│   │   └── resources/
-│   │       ├── templates/                        # Thymeleaf templates
-│   │       │   ├── login.html
-│   │       │   ├── register.html
-│   │       │   ├── quiz.html
-│   │       │   ├── quizlist.html
-│   │       │   ├── addquiz.html
-│   │       │   ├── editquiz.html
-│   │       │   └── result.html
-│   │       ├── static/css/                       # CSS stylesheets
-│   │       └── application.properties            # Application configuration
-│   └── test/
-│       └── java/com/quiz/
-│           └── QuizApplicationTests.java         # Test cases
-├── pom.xml                                       # Maven dependencies
-└── README.md                                     # This file
-```
-
-## 🧪 Testing
-
-Run the test suite:
+Alternatively, with JDK 17 installed, run from the repository root:
 
 ```bash
-./mvnw test
+# Linux / macOS
+chmod +x mvnw
+./mvnw spring-boot:run
 ```
 
-## 🔄 API Endpoints
+On Windows PowerShell, use `.\mvnw.cmd spring-boot:run`.
 
-### Public Endpoints
-- `GET /` - Redirect to login page
-- `GET /login` - Login page
-- `POST /login` - Process login
-- `GET /register` - Registration page
-- `POST /register` - Process registration
+## How to Use
 
-### User Endpoints (Authenticated)
-- `GET /home` - Home page (redirects based on role)
-- `GET /quiz` - Take quiz page
-- `POST /quiz` - Submit quiz answers
+1. Register an **ADMIN** account in the local demo, then sign in. Opening the question-management page adds two sample questions if the question bank is empty.
+2. Use the admin interface to add, edit, or delete questions.
+3. Sign out and register a **USER** account to try the quiz-taking flow.
+4. Sign in, select an answer for each question, and submit to view the score.
 
-### Admin Endpoints (Admin Role Required)
-- `GET /quizlist` - View all questions
-- `GET /addquiz` - Add question form
-- `POST /addquiz` - Create new question
-- `GET /editquiz/{id}` - Edit question form
-- `PUT /editquiz` - Update question
-- `DELETE /question/delete/{id}` - Delete question
+The current registration form lets visitors choose either role. This is suitable for exploring the local demo; public registration should assign `USER` on the server and restrict how administrator accounts are created.
 
-## 📝 Configuration
+## Architecture & Design
 
-The application uses default configuration. Key settings in `application.properties`:
+The application uses **Spring MVC** with separate controller, service, model, and view components.
 
-```properties
-spring.application.name=quiz
-spring.mvc.hiddenmethod.filter.enabled=true
-```
+- **Controller & Views:** `QuizController` handles registration, question-management requests, and quiz scoring. Thymeleaf templates render the login, registration, admin, quiz, and results pages.
+- **Services & Models:** `QuestionService` manages questions, while `QuizUserDetailsService` registers users and supplies user details to Spring Security. `Question` and `User` represent the application data.
+- **Security:** `WebSecurityConfig` defines form login, logout, and route-level role checks. `PasswordEncoderConfig` supplies BCrypt password hashing. CSRF protection remains enabled.
 
-## 🤝 Contributing
+Users and questions are stored in memory, so registered accounts and question changes are lost when the application restarts.
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+## Testing & CI
 
-## 📄 License
+Run the existing service tests and application-context test with `./mvnw test` (`.\mvnw.cmd test` on Windows).
 
-This project is open source and available under the MIT License.
+The [GitHub Actions workflow](.github/workflows/ci-cd.yml) is configured for pushes to `main` and `develop`, and pull requests targeting `main`. It builds the application, runs tests, uploads the JAR, and runs a non-blocking OWASP dependency scan. Pushes to `main` also build a Docker image; the workflow does not publish the image or deploy the application.
 
-## 👤 Author
 
-**Kasra Saber Tehrani**
-- GitHub: [@kasrasabertehrani](https://github.com/kasrasabertehrani)
+## Author
 
-## 🙏 Acknowledgments
-
-- Spring Boot Team for the excellent framework
-- Spring Security for robust security features
-- Thymeleaf for powerful templating
-
-## 📧 Contact
-
-For questions or feedback, please open an issue on GitHub.
-
----
-
-**Note**: This application currently uses in-memory storage (HashMap) for demonstration purposes. For production use, consider integrating a database (MySQL, PostgreSQL, etc.) with Spring Data JPA.
+[Kasra Sabertehrani](https://github.com/kasrasabertehrani)
